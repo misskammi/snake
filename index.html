@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body onkeydown="changeDirection(event)">
+    <canvas id="plotno" width="800" height="600" style="border: 1px solid #ccc;"></canvas>
+    <p id="punkty">Wynik: 0</p>
+
+    <script>
+        var canvas = document.getElementById('plotno');
+        var ctx = canvas.getContext('2d');
+        var snake = {x: 400, y: 300};
+        var jedzenie = {x:300, y:200};
+        spawnFood(); 
+        var kierunek = "prawo";
+        var punkty = 0;
+        setInterval("gameLoop()", 50);
+
+        function changeDirection(e) {
+            //console.log(e);
+            switch(e.key) {
+                case "w":
+                kierunek = "gora";
+                break;
+                case "s": 
+                kierunek = "dol";
+                break;
+                case "a": 
+                kierunek = "lewo";
+                break;
+                case "d": 
+                kierunek = "prawo";
+                break;
+            }
+        }
+        function spawnFood() {
+            var x = Math.random();
+            x *= 80;
+            x = Math.round(x);
+            x = x*10;
+
+            var y = Math.random();
+            y *= 60;
+            y = Math.round(y);
+            y = y*10;
+
+            jedzenie.x = x;
+            jedzenie.y = y;
+        }
+
+        function gameLoop() {
+            ctx.fillStyle = "#FFFFFF";
+            ctx.fillRect(0,0,800,600);
+
+            
+            //snake.y += 10;
+            switch(kierunek) {
+                case "dol":
+                snake.y += 10;
+                break;
+                case "gora":
+                snake.y -= 10;
+                break;
+                case "lewo":
+                snake.x -= 10;
+                break;
+                case "prawo": 
+                snake.x += 10;
+                break;
+            }
+            if(snake.x == jedzenie.x && snake.y == jedzenie.y) {
+                punkty++;
+                document.getElementById('punkty').innerHTML = "Wynik: " + punkty;
+                spawnFood();
+            }
+
+            ctx.fillStyle = "#000000";
+            ctx.fillRect(snake.x, snake.y, 10, 10);
+            ctx.fillStyle = "#FF0000";
+            ctx.fillRect(jedzenie.x, jedzenie.y,10,10);
+            if(snake.y < 0 || snake.y > 600 || snake.x < 0 || snake.x > 800) {
+                alert("przegrałeś :(");
+                snake = {x: 400, y: 300};
+                document.getElementById('punkty').innerHTML = "Wynik: 0";
+            }
+        }
+    </script>
+</body>
+</html>
