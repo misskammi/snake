@@ -108,15 +108,19 @@
                 {x:370, y:300},
                 );
             }
-            if(snake.includes(snake[0],1)) {
-                alert("przegrałeś :( zjadłeś swój ogon!");
-                snake = Array(
-                {x:400, y:300},
-                {x:390, y:300},
-                {x:380, y:300},
-                {x:370, y:300},
-                );
-            }
+            var glowax = snake[0].x;
+            var gloway = snake[0].y;
+            for(var i = 1 ; i < snake.length ; i++) {
+                if(glowax == snake[i].x && gloway == snake[i].y) {
+                    alert("przegrałeś :( zjadłeś swój ogon!");
+                    snake = Array(
+                    {x:400, y:300},
+                    {x:390, y:300},
+                    {x:380, y:300},
+                    {x:370, y:300},
+                    );
+                }
+        }
         }
     </script>
 </body>
